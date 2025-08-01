@@ -42,6 +42,8 @@ public class WebInfoContext : DbContext
             [ID] INTEGER NOT NULL PRIMARY KEY,
             [SiteDesc] NVARCHAR(130) NOT NULL check(length(SiteDesc) <= 130),
             [IpAddress] NVARCHAR(60) check(length(IpAddress) <= 60),
+            [RefUrl] NVARCHAR(160) check(length(RefUrl) <= 160),
+            [Info] NVARCHAR(160) check(length(Info) <= 160),
             [Created] NVARCHAR(30) default (datetime('now','localtime')) 
                       check(length(Created) <= 30)
             ); PRAGMA journal_mode=WAL;"

@@ -31,10 +31,15 @@ var summaries = new[]
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
-app.MapGet("/weatherforecast", () =>
+app.MapGet("/Save/{RefUrl}/{Info}", async(String RefUrl, String Info)
+      =>{
+});
+
+app.MapGet("/weatherforecast", (HttpContext context) =>
 {
    WebInfoContext wci = new();
-   WebInfo wi = new ("allos.dev", "1.2.3.4");
+   var userIpAddr = context.Connection.RemoteIpAddress;
+   WebInfo wi = new ("allos.dev", $"{userIpAddr}");
    wci.Add(wi);
    wci.SaveChanges();
    Console.WriteLine("Saved new data...");
