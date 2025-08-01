@@ -1,3 +1,5 @@
+using LogCap.Model;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
@@ -31,6 +33,7 @@ var summaries = new[]
 
 app.MapGet("/weatherforecast", () =>
 {
+   WebInfoContext wci = new();
     var forecast =  Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
         (
