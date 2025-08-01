@@ -31,8 +31,15 @@ var summaries = new[]
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
-app.MapGet("/Save/{RefUrl}/{Info}", async(String RefUrl, String Info)
-      =>{
+app.MapGet("/Save/{SiteDesc}/{RefUrl?}/{Info?}", async(HttpContext context, String SiteDesc, String RefUrl=null, String Info=null)
+   =>{
+
+   WebInfoContext wci = new();
+   var userIpAddr = context.Connection.RemoteIpAddress;
+   WebInfo wi = new (SiteDesc, $"{userIpAddr}", RefUrl, Info);
+   wci.Add(wi);
+   wci.SaveChanges();
+   Console.WriteLine("Saved new data...");
 });
 
 app.MapGet("/weatherforecast", (HttpContext context) =>
