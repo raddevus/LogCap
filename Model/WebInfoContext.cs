@@ -44,7 +44,7 @@ public class WebInfoContext : DbContext
             [IpAddress] NVARCHAR(60) check(length(IpAddress) <= 60),
             [Created] NVARCHAR(30) default (datetime('now','localtime')) 
                       check(length(Created) <= 30)
-            )"
+            ); PRAGMA journal_mode=WAL;"
     };
 
 }
