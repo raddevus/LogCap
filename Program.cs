@@ -34,6 +34,10 @@ var summaries = new[]
 app.MapGet("/weatherforecast", () =>
 {
    WebInfoContext wci = new();
+   WebInfo wi = new ("allos.dev", "1.2.3.4");
+   wci.Add(wi);
+   wci.SaveChanges();
+   Console.WriteLine("Saved new data...");
     var forecast =  Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
         (

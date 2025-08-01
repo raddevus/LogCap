@@ -5,5 +5,12 @@ public class WebInfo{
    public String SiteDesc{get; set;} // allos.dev, cyapass.com, newlibre.com, etc.
    public String IpAddress{get; set;}
    public DateTime Created {get; set;}
+
+   public WebInfo(String siteDesc, String ipAddress){
+      SiteDesc = siteDesc;
+      IpAddress = ipAddress;
+      Created = DateTime.Now;
+   }
+
 }
 
