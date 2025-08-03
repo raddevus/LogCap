@@ -48,7 +48,7 @@ var summaries = new[]
 
 app.MapGet("/Save/{SiteDesc}/{RefUrl?}/{Info?}", async(HttpContext context, String SiteDesc, String RefUrl=null, String Info=null)
    =>{
-
+   Console.WriteLine($"content rootPath: {Environment.CurrentDirectory}");
    WebInfoContext wci = new();
    var userIpAddr = context.Connection.RemoteIpAddress;
    WebInfo wi = new (SiteDesc, $"{userIpAddr}", RefUrl, Info);

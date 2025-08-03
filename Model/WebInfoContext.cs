@@ -14,8 +14,7 @@ public class WebInfoContext : DbContext
 
     public WebInfoContext()
     {
-        var folder = Environment.SpecialFolder.LocalApplicationData;
-        var path = Environment.GetFolderPath(folder);
+        var path = Environment.CurrentDirectory;
         DbPath = System.IO.Path.Join(path, "logcap.db");
         Console.WriteLine(DbPath);
 
