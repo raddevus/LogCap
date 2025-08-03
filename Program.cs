@@ -18,6 +18,12 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 app.UseCors("AllowedOrigins");
+// We only need UseForwardHeaders when running on Linux behind NGINX - to get ip addresses
+if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Linux)){
+    Console.WriteLine("Running on on Linux...using ForwardHeaders");
+    app.UseForwardedHeaders();
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
