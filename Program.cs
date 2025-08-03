@@ -1,6 +1,15 @@
+using System.Configuration;
+using Microsoft.AspNetCore.HttpOverrides;
 using LogCap.Model;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configuring ForwardHeaders so we can get IP address when runnnig NGINX
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders =
+        ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+});
 
 builder.Services.AddCors(options =>
 {
