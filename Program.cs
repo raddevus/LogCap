@@ -68,10 +68,15 @@ app.MapGet("/Get/db", (HttpContext context, String pwd=null) =>{
          wci.SaveChanges();
          Console.WriteLine($"{userIpAddr}");
          Console.WriteLine($"{HelperTool.Hash(pwd)}");
-         var filePath = Path.Combine(Directory.GetCurrentDirectory(),  "logcap.db");
-         if (!System.IO.File.Exists(filePath)) {return Results.NotFound();}
-         return Results.File(filePath, "application/x-sqlite3", filePath);
-//        return new PhysicalFileResult(filePath, "application/x-sqlite3");
+         if (HelperTool.Hash(pwd) == "86BC2CA50432385C30E2FAC2923AA6D19F7304E213DAB1D967A8D063BEF50EE1"){
+
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(),  "logcap.db");
+            if (!System.IO.File.Exists(filePath)) {return Results.NotFound();}
+            return Results.File(filePath, "application/x-sqlite3", filePath);
+         }
+         else{
+            return Results.NotFound();
+         }
       });
 
 app.MapGet("/weatherforecast", (HttpContext context) =>
