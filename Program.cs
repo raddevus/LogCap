@@ -57,6 +57,13 @@ app.MapGet("/Save/{SiteDesc}/{RefUrl?}/{Info?}", async(HttpContext context, Stri
    Console.WriteLine("Saved new data...");
 });
 
+app.MapGet("/Get/db", async(HttpContext context, String pwd=null) =>{
+         // post to this with /Get/db/?pwd=<your password>"
+         var userIpAddr = context.Connection.RemoteIpAddress;
+         Console.WriteLine($"{userIpAddr}");
+         Console.WriteLine($"{HelperTool.Hash(pwd)}");
+      });
+
 app.MapGet("/weatherforecast", (HttpContext context) =>
 {
    WebInfoContext wci = new();
