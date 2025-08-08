@@ -1,5 +1,6 @@
 using System.Configuration;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
 using LogCap.Model;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -57,11 +58,20 @@ app.MapGet("/Save/{SiteDesc}/{RefUrl?}/{Info?}", async(HttpContext context, Stri
    Console.WriteLine("Saved new data...");
 });
 
-app.MapGet("/Get/db", async(HttpContext context, String pwd=null) =>{
+app.MapGet("/Get/db", (HttpContext context, String pwd=null) =>{
          // post to this with /Get/db/?pwd=<your password>"
+         WebInfoContext wci = new(); 
          var userIpAddr = context.Connection.RemoteIpAddress;
+         // Saving off ip addr for attempt at this functionality 
+         WebInfo wi = new ("get db", $"{userIpAddr}");
+         wci.Add(wi);
+         wci.SaveChanges();
          Console.WriteLine($"{userIpAddr}");
          Console.WriteLine($"{HelperTool.Hash(pwd)}");
+         var filePath = Path.Combine(Directory.GetCurrentDirectory(),  "logcap.db");
+         if (!System.IO.File.Exists(filePath)) {return Results.NotFound();}
+         return Results.File(filePath, "application/x-sqlite3", filePath);
+//        return new PhysicalFileResult(filePath, "application/x-sqlite3");
       });
 
 app.MapGet("/weatherforecast", (HttpContext context) =>
