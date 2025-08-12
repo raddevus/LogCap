@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+   <head>
+      <title>
+      </title>
+      <script>
+         function downloadFile(blob, name = "journal.db") {
+             const href = URL.createObjectURL(blob);
+             const a = Object.assign(document.createElement("a"), {
+               href,
+               style: "display:none",
+               download: name,
+             });
+             document.body.appendChild(a);
+             a.click();
+             URL.revokeObjectURL(href);
+             a.remove();
+         }
+
+         function GetFileTimeFormat(date) {
+             var month = ("0" + (date.getMonth() + 1)).slice(-2);
+             var day  = ("0" + (date.getDate())).slice(-2);
+             var year = date.getFullYear();
+             var hour =  ("0" + (date.getHours())).slice(-2);
+             var min =  ("0" + (date.getMinutes())).slice(-2);
+             var seg = ("0" + (date.getSeconds())).slice(-2);
+             return `${year}-${month}-${day}_${hour}-${min}-${seg}`;
+         }
+         function downloadLogCapDb(){
+            var userPwd = document.querySelector("#userPwd").value;
+            var prodUrl = "https://allos.dev/api/";
+            var testUrl = "http://localhost:5176/"
+            var baseUrl = prodUrl; 
+            fetch(`${baseUrl}Get/db?pwd=${userPwd}`)
+              .then(resp => {console.log(resp); return resp.blob();})
+              .then(blob => {
+                  downloadFile(blob,`logcap-${GetFileTimeFormat(new Date())}.db`);
+              });
+         }
+      </script>
+   </head>
+   <body>
+      <input id="userPwd" type="text" width="100">
+      <button onclick="downloadLogCapDb()">Download Db</button>
+   </body>
+</html>

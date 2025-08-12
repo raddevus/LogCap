@@ -59,25 +59,32 @@ app.MapGet("/Save/{SiteDesc}/{RefUrl?}/{Info?}", async(HttpContext context, Stri
 });
 
 app.MapGet("/Get/db", (HttpContext context, String pwd=null) =>{
-         // post to this with /Get/db/?pwd=<your password>"
-         WebInfoContext wci = new(); 
-         var userIpAddr = context.Connection.RemoteIpAddress;
-         // Saving off ip addr for attempt at this functionality 
-         WebInfo wi = new ("get db", $"{userIpAddr}");
-         wci.Add(wi);
-         wci.SaveChanges();
-         Console.WriteLine($"{userIpAddr}");
-         Console.WriteLine($"{HelperTool.Hash(pwd)}");
-         if (HelperTool.Hash(pwd) == "86BC2CA50432385C30E2FAC2923AA6D19F7304E213DAB1D967A8D063BEF50EE1"){
+      // post to this with /Get/db/?pwd=<your password>"
+      WebInfoContext wci = new(); 
+      var userIpAddr = context.Connection.RemoteIpAddress;
+      // Saving off ip addr for attempt at this functionality 
+      WebInfo wi = new ("get db", $"{userIpAddr}");
+      wci.Add(wi);
+      wci.SaveChanges();
+      Console.WriteLine($"{userIpAddr}");
+      Console.WriteLine($"{HelperTool.Hash(pwd)}");
+      if (HelperTool.Hash(pwd) == "86BC2CA50432385C30E2FAC2923AA6D19F7304E213DAB1D967A8D063BEF50EE1"){
 
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(),  "logcap.db");
-            if (!System.IO.File.Exists(filePath)) {return Results.NotFound();}
-            return Results.File(filePath, "application/x-sqlite3", filePath);
-         }
-         else{
-            return Results.NotFound();
-         }
-      });
+         var filePath = Path.Combine(Directory.GetCurrentDirectory(),  "logcap.db");
+         if (!System.IO.File.Exists(filePath)) {return Results.NotFound();}
+         return Results.File(filePath, "application/x-sqlite3", filePath);
+      }
+      else{
+         return Results.NotFound();
+      }
+   });
+
+app.MapGet("GetDb/", async context =>
+{
+    var html = await File.ReadAllTextAsync("getDb.htm");
+    context.Response.ContentType = "text/html";
+    await context.Response.WriteAsync(html);
+});
 
 app.MapGet("/weatherforecast", (HttpContext context) =>
 {
