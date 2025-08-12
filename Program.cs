@@ -79,7 +79,7 @@ app.MapGet("/Get/db", (HttpContext context, String pwd=null) =>{
       }
    });
 
-app.MapGet("GetDb/", async context =>
+app.MapGet("/GetDb", async context =>
 {
     var html = await File.ReadAllTextAsync("getDb.htm");
     context.Response.ContentType = "text/html";
