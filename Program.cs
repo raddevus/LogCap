@@ -81,6 +81,7 @@ app.MapGet("/Get/db", (HttpContext context, String pwd=null) =>{
 
 app.MapGet("/GetDb", async context =>
 {
+      Console.WriteLine(Environment.CurrentDirectory);
     var html = await File.ReadAllTextAsync("getDb.htm");
     context.Response.ContentType = "text/html";
     await context.Response.WriteAsync(html);
