@@ -1,6 +1,7 @@
 using System.Configuration;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using LogCap.Model;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -66,6 +67,8 @@ app.MapGet("/Get/db", (HttpContext context, String pwd=null) =>{
       WebInfo wi = new ("get db", $"{userIpAddr}");
       wci.Add(wi);
       wci.SaveChanges();
+      // Flushes unwritten data so when file is downloaded it has evertyhing
+      wci.Database.ExecuteSqlRaw("PRAGMA wal_checkpoint(FULL);");
       Console.WriteLine($"{userIpAddr}");
       Console.WriteLine($"{HelperTool.Hash(pwd)}");
       if (HelperTool.Hash(pwd) == "86BC2CA50432385C30E2FAC2923AA6D19F7304E213DAB1D967A8D063BEF50EE1"){
