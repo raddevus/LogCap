@@ -1,0 +1,3 @@
+#### Helpful Queries
+-- displays all ipaddresses that have accessed the site, along with an access count
+`select count(*), sitedesc, ipaddress  from webinfo group by sitedesc, ipaddress order by count(*);`
