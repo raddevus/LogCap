@@ -18,7 +18,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowedOrigins",
         builder =>
         {
-            builder.WithOrigins("https://newlibre.com", "https://allos.dev", "https://cyapass.com")
+            builder.WithOrigins("https://newlibre.com", "https://allos.dev",
+			   "https://cyapass.com", "https://makegameswithjs.com")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
